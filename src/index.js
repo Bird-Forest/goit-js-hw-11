@@ -1,75 +1,95 @@
-import SimpleLightbox from "simplelightbox";
-import "simplelightbox/dist/simple-lightbox.min.css";
+import { Notify } from 'notiflix/build/notiflix-notify-aio';
+import { notifyInit } from './notify';
+import { getGallery } from './axios';
+import { creatMarkup } from './markup';
 
-
-const axios = require('axios').default;
-
-const formSearch = document.querySelector('.search-form')
+const formSearch = document.querySelector('.search-form');
 console.dir(formSearch)
-formSearch.addEventListener('submit', handlerForm)
+formSearch.addEventListener('submit', handlerForm);
 
+const btnLoadMore = document.querySelector('.load-more');
+btnLoadMore.addEventListener('click', onLoad);
 
+const gallery = document.querySelector('.gallery');
+
+let word = '';
+let perPage = null;
+let counterHits = null;
+let page = 38;
 
 
 function handlerForm(evt) {
-    evt.preventDefault()
-    // const word = document.querySelector(['input[name="searchQuery"]']).value.trim()
-    const data = new FormData(evt.currentTarget)
-    const word = JSON.stringify(data.get("searchQuery").trim());
+    evt.preventDefault();
+    gallery.innerHTML = '';
+    document.querySelector('.footer').classList.remove('open');
+
+    const data = new FormData(evt.currentTarget);
+    word = JSON.stringify(data.get("searchQuery").trim());
+    console.log(word)
     
     getGallery(word)
         .then(data => {
-        
-            const arr = data.hits
             
-            creatMarkup(arr);
-           
-    })
-    .catch (err => console.log(err));
-
-}
-
-async function getGallery(word) {
-    
-    const response = await axios.get('https://pixabay.com/api/',
-        {
-            params: {
-                key: '38659360-bc0842e55c2c51de5ea7c36c0',
-                q: `${word}`,
-                image_type: 'photo',
-                orientation: ' horizontal',
-                safesearch: true
+            if (data.total == 0) {
+                Notify.warning('Sorry, there are no images matching your search query. Please try again.', notifyInit);
             }
+            const arr = data.hits;
+            creatMarkup(arr);
+
+            if (data.hits.length < data.totalHits) {
+                setTimeout(() => {
+                    document.querySelector('.footer').classList.add('open');
+                    btnLoadMore.style.opacity = 1;
+                    document.querySelector('.message').textContent = `Hooray! We found ${data.totalHits} images.`;
+                    formSearch.reset();
+                    // page = 1;
+                }, 3000);
+            };
         })
-    const data = response.data
-    
-    return data
+        .catch(err => console.log(err));
 };
 
-const lightbox = new SimpleLightbox('.gallery a', {
-    captionDelay: 250,
-});
+function onLoad() {
+    page += 1;
+    
+    getGallery(word, page)
+        .then(data => {
+            perPage = data.hits.length;
+            counterHits = Number(perPage) * Number(page);
+            console.log(counterHits);
+    
+            const arr = data.hits;
+            creatMarkup(arr);
 
-function creatMarkup(arr) {
+            const { height: cardHeight } = document.querySelector(".gallery").firstElementChild.getBoundingClientRect();
 
-    const gallery = document.querySelector('.gallery');
+            window.scrollBy({
+                top: cardHeight * 2,
+                behavior: "smooth",
+            });
 
-    const markup = arr.map(({ webformatURL, largeImageURL, tags, likes, views, comments, downloads }) => 
+            if (counterHits >= data.totalHits) {
+                btnLoadMore.style.opacity = 0;
+                document.querySelector('.message').textContent = `We\'re sorry, but you\'ve reached the end of search results.`;
+                setTimeout(() => {
+                    document.querySelector('.footer').classList.remove('open')
+                }, 5000);
+            };
+        })
+        .catch(err => console.log(err));
+};
 
-    `<div class="photo-card">
-    <a href="${largeImageURL}"><img src="${webformatURL}" alt="${tags}" loading="lazy" class="photo"/></a>
-    <div class="info">
-    <p class="info-item"><b>Likes</b>${likes}</p>
-    <p class="info-item"><b>Views</b>${views}</p>
-    <p class="info-item"><b>Comments</b>${comments}</p>
-    <p class="info-item"><b>Downloads</b>${downloads}</p>
-    </div>
-    </div>`).join('');
 
-    gallery.insertAdjacentHTML('beforeend', markup);
 
-    lightbox.refresh();
-}
+
+
+
+
+
+
+
+
+
 
 
 
