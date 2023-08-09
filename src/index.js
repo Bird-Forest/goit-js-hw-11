@@ -15,8 +15,7 @@ const gallery = document.querySelector('.gallery');
 let word = '';
 let perPage = null;
 let counterHits = null;
-let page = 38;
-
+let page = 1;
 
 function handlerForm(evt) {
     evt.preventDefault();
@@ -42,7 +41,7 @@ function handlerForm(evt) {
                     btnLoadMore.style.opacity = 1;
                     document.querySelector('.message').textContent = `Hooray! We found ${data.totalHits} images.`;
                     formSearch.reset();
-                    // page = 1;
+                    page = 1;
                 }, 3000);
             };
         })

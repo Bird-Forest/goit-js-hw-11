@@ -13,7 +13,7 @@ export async function getGallery(word, page) {
                 orientation: ' horizontal',
                 safesearch: true,
                 page: `${page}`,
-                per_page: 12,
+                per_page: 40,
             }
         })
     const data = response.data
