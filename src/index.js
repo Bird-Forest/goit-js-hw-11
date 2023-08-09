@@ -13,8 +13,8 @@ btnLoadMore.addEventListener('click', onLoad);
 const gallery = document.querySelector('.gallery');
 
 let word = '';
-let perPage = null;
-let counterHits = null;
+let perPage = 40;
+
 let page = 1;
 
 function handlerForm(evt) {
@@ -53,26 +53,24 @@ function onLoad() {
     
     getGallery(word, page)
         .then(data => {
-            perPage = data.hits.length;
-            counterHits = Number(perPage) * Number(page);
-            console.log(counterHits);
-    
             const arr = data.hits;
-            creatMarkup(arr);
+
+            let counterHits = perPage += arr.length;
+
+            creatMarkup(arr)
 
             const { height: cardHeight } = document.querySelector(".gallery").firstElementChild.getBoundingClientRect();
-
             window.scrollBy({
                 top: cardHeight * 2,
                 behavior: "smooth",
             });
-
-            if (counterHits >= data.totalHits) {
+    
+            if (counterHits === data.totalHits) {
                 btnLoadMore.style.opacity = 0;
                 document.querySelector('.message').textContent = "We're sorry, but you've reached the end of search results.";
                 setTimeout(() => {
                     document.querySelector('.footer').classList.remove('open')
-                }, 5000);
+                }, 5000);            
             };
         })
         .catch(err => console.log(err));
