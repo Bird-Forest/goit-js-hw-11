@@ -4,7 +4,6 @@ import { getGallery } from './axios';
 import { creatMarkup } from './markup';
 
 const formSearch = document.querySelector('.search-form');
-console.dir(formSearch)
 formSearch.addEventListener('submit', handlerForm);
 
 const btnLoadMore = document.querySelector('.load-more');
@@ -14,12 +13,15 @@ const gallery = document.querySelector('.gallery');
 
 let word = '';
 let perPage = 40;
-
 let page = 1;
+let counterHits = 0;
+console.log(counterHits)
 
 function handlerForm(evt) {
     evt.preventDefault();
     gallery.innerHTML = '';
+    page = 1;
+
     document.querySelector('.footer').classList.remove('open');
 
     const data = new FormData(evt.currentTarget);
@@ -35,17 +37,18 @@ function handlerForm(evt) {
             const arr = data.hits;
             creatMarkup(arr);
 
-            if (data.hits.length < data.totalHits) {
+            if (arr.length < data.totalHits) {
                 setTimeout(() => {
                     document.querySelector('.footer').classList.add('open');
                     btnLoadMore.style.opacity = 1;
                     document.querySelector('.message').textContent = `Hooray! We found ${data.totalHits} images.`;
                     formSearch.reset();
-                    page = 1;
+                    
                 }, 3000);
             };
         })
         .catch(err => console.log(err));
+    return counterHits = perPage;
 };
 
 function onLoad() {
@@ -55,8 +58,8 @@ function onLoad() {
         .then(data => {
             const arr = data.hits;
 
-            let counterHits = perPage += arr.length;
-
+            counterHits += arr.length;
+            
             creatMarkup(arr)
 
             const { height: cardHeight } = document.querySelector(".gallery").firstElementChild.getBoundingClientRect();
@@ -68,6 +71,7 @@ function onLoad() {
             if (counterHits === data.totalHits) {
                 btnLoadMore.style.opacity = 0;
                 document.querySelector('.message').textContent = "We're sorry, but you've reached the end of search results.";
+                
                 setTimeout(() => {
                     document.querySelector('.footer').classList.remove('open')
                 }, 5000);            
@@ -75,10 +79,6 @@ function onLoad() {
         })
         .catch(err => console.log(err));
 };
-
-
-
-
 
 
 
