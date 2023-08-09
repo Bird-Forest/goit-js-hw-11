@@ -69,7 +69,7 @@ function onLoad() {
 
             if (counterHits >= data.totalHits) {
                 btnLoadMore.style.opacity = 0;
-                document.querySelector('.message').textContent = `We\'re sorry, but you\'ve reached the end of search results.`;
+                document.querySelector('.message').textContent = "We're sorry, but you've reached the end of search results.";
                 setTimeout(() => {
                     document.querySelector('.footer').classList.remove('open')
                 }, 5000);
