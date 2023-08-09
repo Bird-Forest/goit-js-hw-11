@@ -21,6 +21,7 @@ function handlerForm(evt) {
     evt.preventDefault();
     gallery.innerHTML = '';
     page = 1;
+    counterHits = perPage;
 
     document.querySelector('.footer').classList.remove('open');
 
@@ -59,7 +60,9 @@ function onLoad() {
             const arr = data.hits;
 
             counterHits += arr.length;
-            
+            console.log(counterHits)
+            console.log(data.totalHits)
+
             creatMarkup(arr)
 
             const { height: cardHeight } = document.querySelector(".gallery").firstElementChild.getBoundingClientRect();
