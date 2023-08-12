@@ -20,6 +20,8 @@ export function creatMarkup(arr) {
     gallery.insertAdjacentHTML('beforeend', markup);
 
     const lightbox = new SimpleLightbox('.gallery a', {
+        captions: true,
+        captionsData: 'alt',
         captionDelay: 250,
     });
 

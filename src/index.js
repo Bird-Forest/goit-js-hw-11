@@ -7,24 +7,20 @@ const formSearch = document.querySelector('.search-form');
 formSearch.addEventListener('submit', handlerForm);
 
 const btnLoadMore = document.querySelector('.load-more');
-btnLoadMore.addEventListener('click', onLoad);
+btnLoadMore.addEventListener('click', onShowGallery);
 
 const gallery = document.querySelector('.gallery');
 
 let word = '';
 let perPage = 40;
 let page = 1;
-let counterHits = 0;
-console.log(counterHits)
+
 
 function handlerForm(evt) {
     evt.preventDefault();
     gallery.innerHTML = '';
-    page = 1;
-    counterHits = perPage;
-
     document.querySelector('.footer').classList.remove('open');
-
+    page = 1;
     const data = new FormData(evt.currentTarget);
     word = JSON.stringify(data.get("searchQuery").trim());
     console.log(word)
@@ -41,40 +37,43 @@ function handlerForm(evt) {
             if (arr.length < data.totalHits) {
                 setTimeout(() => {
                     document.querySelector('.footer').classList.add('open');
-                    btnLoadMore.style.opacity = 1;
+                    btnLoadMore.classList.remove('is-hidden');
                     document.querySelector('.message').textContent = `Hooray! We found ${data.totalHits} images.`;
                     formSearch.reset();
-                    
                 }, 3000);
             };
         })
         .catch(err => console.log(err));
-    return counterHits = perPage;
 };
 
-function onLoad() {
+function onShowGallery() {
     page += 1;
+    console.log(page)
     
     getGallery(word, page)
         .then(data => {
+
+            const totalPage = Math.ceil(data.totalHits / perPage);
+            console.log(totalPage)
+
             const arr = data.hits;
 
-            counterHits += arr.length;
-            console.log(counterHits)
-            console.log(data.totalHits)
+            btnLoadMore.classList.add('is-hidden');
+            
+            creatMarkup(arr);
 
-            creatMarkup(arr)
-
+            btnLoadMore.classList.remove('is-hidden');
+        
             const { height: cardHeight } = document.querySelector(".gallery").firstElementChild.getBoundingClientRect();
             window.scrollBy({
                 top: cardHeight * 2,
                 behavior: "smooth",
             });
-    
-            if (counterHits === data.totalHits) {
-                btnLoadMore.style.opacity = 0;
+
+            if (page === totalPage) {
+                btnLoadMore.classList.add('is-hidden');
                 document.querySelector('.message').textContent = "We're sorry, but you've reached the end of search results.";
-                
+
                 setTimeout(() => {
                     document.querySelector('.footer').classList.remove('open')
                 }, 5000);            
@@ -82,7 +81,6 @@ function onLoad() {
         })
         .catch(err => console.log(err));
 };
-
 
 
 

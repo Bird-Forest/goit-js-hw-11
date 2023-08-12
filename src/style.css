@@ -48,8 +48,8 @@ button[type='submit'] {
   background-color: #2373a9;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
   border: 2px #216b9dcb solid;
-  transform: scale(1) 250ms cubic-bezier(0.4, 0, 0.2, 1);
-  transition: transform;
+  transform: scale(1);
+  transition: transform 250ms cubic-bezier(0.4, 0, 0.2, 1);
 
   outline: none;
   border-radius: 5px;
@@ -190,16 +190,12 @@ button[type='submit']:hover {
   font-size: 20px;
   font-weight: 500;
   color: white;
-  text-align: center;
+  text-align: right;
 
-  width: 300px;
+  max-width: 600px;
   padding: 0;
   margin-left: auto;
-}
-@media screen and (min-width: 650px) {
-  .message {
-    width: 350px;
-  }
+  margin-right: 15px;
 }
 
 .load-more {
@@ -212,8 +208,8 @@ button[type='submit']:hover {
   color: white;
   background-color: #2373a9;
   border: 2px #216b9dcb solid;
-  transform: scale(1) 250ms cubic-bezier(0.4, 0, 0.2, 1);
-  transition: transform;
+  transform: scale(1);
+  transition: transform 250ms cubic-bezier(0.4, 0, 0.2, 1);
 
   outline: none;
   border-radius: 5px;
@@ -221,9 +217,73 @@ button[type='submit']:hover {
 
   padding-top: 0;
   margin-right: auto;
-  margin-left: 10px;
+  /* margin-left: 10px; */
 }
 
 .load-more:hover {
   transform: scale(1.05);
 }
+
+/* @media screen and (min-width: 650px) {
+  .message {
+    width: 390px;
+  }
+} */
+
+.is-hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* .loader {
+  position: absolute;
+  top: 50%;
+  width: 106px;
+  height: 56px;
+  display: block;
+  margin: 30px auto;
+  background-image: linear-gradient(#2373a9 50px, transparent 0),
+    linear-gradient(#2373a9 50px, transparent 0),
+    linear-gradient(#2373a9 50px, transparent 0),
+    linear-gradient(#2373a9 50px, transparent 0),
+    radial-gradient(circle 14px, #2373a9 100%, transparent 0);
+  background-size: 48px 15px, 15px 35px, 15px 35px, 25px 15px, 28px 28px;
+  background-position: 25px 5px, 58px 20px, 25px 17px, 2px 37px, 76px 0px;
+  background-repeat: no-repeat;
+  position: relative;
+  transform: rotate(-45deg);
+  box-sizing: border-box;
+}
+.loader::after,
+.loader::before {
+  content: '';
+  position: absolute;
+  width: 56px;
+  height: 56px;
+  border: 6px solid #2373a9;
+  border-radius: 50%;
+  left: -45px;
+  top: -10px;
+  background-repeat: no-repeat;
+  background-image: linear-gradient(#2373a9 64px, transparent 0),
+    linear-gradient(#2373a9 66px, transparent 0),
+    radial-gradient(circle 4px, #2373a9 100%, transparent 0);
+  background-size: 40px 1px, 1px 40px, 8px 8px;
+  background-position: center center;
+  box-sizing: border-box;
+  animation: rotation 0.3s linear infinite;
+}
+.loader::before {
+  left: 25px;
+  top: 60px;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+} */

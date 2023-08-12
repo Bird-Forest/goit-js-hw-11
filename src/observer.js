@@ -84,5 +84,25 @@
 //         });
 // };
 
+// gallery.addEventListener('load', function () {
+     
+//     document.querySelector('.loader').styly.display = 'block';
+           
+//  });
 
+// function onShowLoad() {
+//     document.querySelector('.loader').classList.replace('is-hidden', 'loader');
+//     btnLoadMore.classList.replace('load-more', 'is-hidden');
+// };
 
+// function onStopLoad() {
+//      document.querySelector('.loader').classList.replace('loader', 'is-hidden');
+//     btnLoadMore.classList.replace('is-hidden', 'load-more');
+// };
+
+// window.addEventListener('load', function () {
+     
+//          loaderItem.style.display = 'block';
+//           errorItem.style.display = 'none';
+   
+// });
