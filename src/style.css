@@ -217,18 +217,11 @@ button[type='submit']:hover {
 
   padding-top: 0;
   margin-right: auto;
-  /* margin-left: 10px; */
 }
 
 .load-more:hover {
   transform: scale(1.05);
 }
-
-/* @media screen and (min-width: 650px) {
-  .message {
-    width: 390px;
-  }
-} */
 
 .is-hidden {
   opacity: 0;

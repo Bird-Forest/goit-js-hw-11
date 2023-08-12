@@ -76,7 +76,7 @@ function onShowGallery() {
 
                 setTimeout(() => {
                     document.querySelector('.footer').classList.remove('open')
-                }, 5000);            
+                }, 10000);            
             };
         })
         .catch(err => console.log(err));
