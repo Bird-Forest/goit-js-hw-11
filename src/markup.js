@@ -27,3 +27,4 @@ export function creatMarkup(arr) {
 
     lightbox.refresh();
 };
+
