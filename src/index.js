@@ -74,7 +74,7 @@ function onShowGallery() {
                 
                 stopLoader();
 
-            } else if (page === totalPage) {
+            } else {
                 
                 stopGallery();
             }
